@@ -8,7 +8,7 @@ stabPareto = MetricStabilizationPlot(
     step=10,
     dist="pareto",
     alpha=3,
-    metrics=["mean", "std", "skewness", "kurtoris"],
+    metrics=["mean", "std", "skewness", "kurtosis"],
 )
 
 
@@ -44,3 +44,18 @@ def test_stab_pareto_sample_seq_sample_data_type():
 def test_stab_pareto_sample_seq_metrics_type():
     df = stabPareto.createSamplingDistribution()
     assert isinstance(df, DataFrame)
+
+
+def test_df_positive_means():
+    df = stabPareto.createSamplingDistribution()
+    assert all(df["mean"] >= 0)
+
+
+def test_df_positive_sds():
+    df = stabPareto.createSamplingDistribution()
+    assert all(df["std"] >= 0)
+
+
+def test_df_positive_skewness():
+    df = stabPareto.createSamplingDistribution()
+    assert all(df["skewness"] >= 0)
