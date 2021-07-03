@@ -1,11 +1,11 @@
-IMAGE_BASE=lln_simulator
-VERSION=0.1.0
-IMAGE=$(IMAGE_BASE):$(VERSION)
-CONTAINER=lln
+IMAGE_BASE ?= lln_simulator
+VERSION ?= 0.2.0
+IMAGE = $(IMAGE_BASE):$(VERSION)
+CONTAINER ?= lln
 
 
 build:
-	DOCKER_BUILDKIT=1 docker build -t $(IMAGE) .
+	docker build --no-cache -t $(IMAGE) .
 
 
 run:
@@ -19,4 +19,9 @@ it:
 	docker exec -it $(CONTAINER) bash
 
 prune:
+	docker rmi -f $(IMAGE)
 	docker rmi $(shell docker images -f "dangling=true" -q)
+
+
+debug:
+	docker run --rm -it $(IMAGE) bash
