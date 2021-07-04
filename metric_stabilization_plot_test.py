@@ -11,6 +11,16 @@ stabPareto = MetricStabilizationPlot(
     metrics=["mean", "std", "skewness", "kurtosis"],
 )
 
+stabGaussian = MetricStabilizationPlot(
+    min_n=10,
+    max_n=5000,
+    step=10,
+    dist="gaussian",
+    mu=0,
+    sigma=1,
+    metrics=["mean", "std", "skewness", "kurtosis"],
+)
+
 
 def all_same_type(some_list, dtype):
     return all(isinstance(x, dtype) for x in some_list)
@@ -59,3 +69,33 @@ def test_df_positive_sds():
 def test_df_positive_skewness():
     df = stabPareto.createSamplingDistribution()
     assert all(df["skewness"] >= 0)
+
+
+def test_stab_gaussian_draws_obj_type():
+    out = stabGaussian.createDrawSequence()
+    assert isinstance(out, list)
+
+
+def test_stab_gaussian_draws_data_type():
+    out = stabGaussian.createDrawSequence()
+    assert all_same_type(out, int)
+
+
+def test_stab_gaussian_sample_seq_type():
+    out, draws = stabGaussian.createGaussianSampleSequence()
+    assert isinstance(out, list)
+
+
+def test_stab_gaussian_sample_seq_data_type():
+    out, draws = stabGaussian.createGaussianSampleSequence()
+    assert all_same_type(out, ndarray)
+
+
+def test_stab_gaussian_sample_seq_sample_data_type():
+    out, draws = stabGaussian.createGaussianSampleSequence()
+    assert all_same_type(out[0], float)
+
+
+def test_stab_gaussian_sample_seq_metrics_type():
+    df = stabPareto.createSamplingDistribution()
+    assert isinstance(df, DataFrame)
