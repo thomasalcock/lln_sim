@@ -49,4 +49,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: talcock90/lln-simulator:v0.1.0_${{ GITHUB_RUN_ID }}
+          tags: talcock90/lln-simulator:v0.1.0_${{ env.GITHUB_RUN_ID }}
