@@ -47,7 +47,6 @@ jobs:
 
       - name: Build and push image
         uses: docker/build-push-action@v2
-        file: {context}/Dockerfile
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/lln-simulator:0.1.0
+          tags: talcock90/lln-simulator:0.1.0
