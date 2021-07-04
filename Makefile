@@ -1,5 +1,5 @@
-IMAGE_BASE ?= lln_simulator
-VERSION ?= 0.2.0
+IMAGE_BASE ?= lln-simulator
+VERSION ?= 0.1.0
 IMAGE = $(IMAGE_BASE):$(VERSION)
 CONTAINER ?= lln
 
