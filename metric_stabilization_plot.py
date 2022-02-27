@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import scipy.stats as sp
 from utils import logger
-
+from typing import List, Dict, Set, Tuple, Optional
 # TODO: fix list types
 
 
@@ -50,7 +50,7 @@ class MetricStabilizationPlot:
 
         self.kwargs = kwargs
 
-    def createDrawSequence(self) -> list[int]:
+    def createDrawSequence(self) -> List[int]:
         """Creates as list of the number of samples
         to be drawn from a probability distribution
 
@@ -61,7 +61,7 @@ class MetricStabilizationPlot:
         draws = [int(x) for x in draws]
         return list(draws)
 
-    def createParetoSampleSequence(self) -> tuple[list[float], list[int]]:
+    def createParetoSampleSequence(self) -> Tuple[List[float], List[int]]:
         """Creates a list of samples draws from a pareto distribution.
         Output is regulated by the number of samples and the alpha parameter.
 
@@ -72,7 +72,7 @@ class MetricStabilizationPlot:
         par_samples = [np.random.pareto(a=self.kwargs["alpha"], size=x) for x in draws]
         return par_samples, draws
 
-    def createLogNormalSampleSequence(self) -> tuple[list[float], list[int]]:
+    def createLogNormalSampleSequence(self) -> Tuple[List[float], List[int]]:
         """Creates a list of samples draws from a lognormal distribution.
         Output is regulated by the number of samples and the mu and sigma parameter.
 
@@ -88,7 +88,7 @@ class MetricStabilizationPlot:
         ]
         return ln_samples, draws
 
-    def createGaussianSampleSequence(self) -> tuple[list, list]:
+    def createGaussianSampleSequence(self) -> Tuple[List, List]:
         """Creates a list of samples draws from a gaussian distribution.
         Output is regulated by the number of samples and the mu and sigma parameters.
 
@@ -136,7 +136,7 @@ class MetricStabilizationPlot:
         logger.info(f"Returning data.frame with {df.shape[0]} rows")
         return df
 
-    def handleDistributionType(self) -> list[float]:
+    def handleDistributionType(self) -> List[float]:
         """Handler method to create sample sequences
         for different probability distributions.
 
@@ -209,7 +209,7 @@ class MetricStabilizationPlot:
         fig = self.createStabilizationPlot()
         fig.show()
 
-    def drawSample(self) -> list[float]:
+    def drawSample(self) -> List[float]:
         n = 10000
         if self.dist_type == "pareto":
             return np.random.pareto(a=self.kwargs["alpha"], size=n)
