@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lln-sim-deployment
+  labels:
+    app: lln-sim
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lln-sim
+  template:
+    metadata:
+      labels:
+        app: lln-sim
+    spec:
+      containers:
+      - name: lln-sim
+        image: talcock90/lln-simulator:v0.1.0_1018859444
+        ports:
+        - containerPort: 8501
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lln-sim-service
+spec:
+  selector:
+    app: lln-sim
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8501
+      targetPort: 8501
+      nodePort: 30000
