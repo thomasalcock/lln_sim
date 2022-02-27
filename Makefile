@@ -1,8 +1,10 @@
-IMAGE_BASE ?= lln-simulator
-VERSION ?= 0.1.0
+IMAGE_BASE ?= talcock90/lln-simulator
+VERSION ?= v0.1.0_1018859444
 IMAGE = $(IMAGE_BASE):$(VERSION)
 CONTAINER ?= lln
 
+stop:
+	docker stop $(CONTAINER)
 
 build:
 	docker build --no-cache -t $(IMAGE) .
