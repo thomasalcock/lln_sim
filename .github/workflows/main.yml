@@ -13,6 +13,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  repo: talcock90
+  image: lln-simulator
+  image_version: v1.0
+  container: lln
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -50,15 +56,21 @@ jobs:
         with:
           context: .
           load: true
-          tags: talcock90/lln-simulator:v0.1.0_${{ github.run_id }}
+          tags: ${{ env.repo }}/${{ env.image }}:${{ env.image_version }}_${{ github.run_id }}
 
-      - name: Scan image for vulnerabilities
+      - name: Test image
         run:
-          docker scan talcock90/lln-simulator:v0.1.0_${{ github.run_id }}
+          set -e
+          docker run --name ${{ env.container }} \
+            -p 8501:8501 \
+            ${{ env.repo }}/${{ env.image }}:${{ env.image_version }}_${{ github.run_id }}
+          container_running=$(docker inspect -f "{{ .State.Running }}" ${{ env.container }})
+          echo $container_running
+          [ $container_running -eq "true" ] && echo "Container is not running"
       
       - name: Push image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: talcock90/lln-simulator:v0.1.0_${{ github.run_id }}
+          tags: ${{ env.repo }}/${{ env.image }}:${{ env.image_version }}_${{ github.run_id }}
