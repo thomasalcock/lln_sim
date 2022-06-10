@@ -45,6 +45,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      - name: Check vulnerabilities
+        run: |
+          pip install bandit
+          bandit -c bandit_yml.cfg ./*.py
+
       - name: Run tests
         run: pytest metric_stabilization_plot_test.py
 
