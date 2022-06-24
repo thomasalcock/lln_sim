@@ -44,10 +44,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-
-      - name: Check vulnerabilities
+      
+      - name: Check package vulnerabilities
+      - run: |
+          pip install safety==1.10.3
+          safety check -r requirements.txt --full-report
+          
+      - name: Check code vulnerabilities
         run: |
-          pip install bandit
+          pip install bandit==1.7.4
           bandit -c bandit_yml.cfg ./*.py
 
       - name: Run tests
