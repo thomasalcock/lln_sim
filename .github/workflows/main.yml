@@ -53,7 +53,7 @@ jobs:
       - name: Check code vulnerabilities
         run: |
           pip install bandit==1.7.4
-          bandit -c bandit_yml.cfg ./*.py
+          bandit -c bandit_cfg.yml ./*.py
 
       - name: Run tests
         run: pytest metric_stabilization_plot_test.py
